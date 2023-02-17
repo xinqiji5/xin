@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+
+      // Disallow by default
+      allow read, write: if false;
+
+      // Allow reading challenges
+      match /claim_challenges/{challenge} {
+
+        // Only allow reads of a single document, but not listing or querying
+        allow get: if true;
+
+      }
+
+      // Allow reading of public event meta
+      match /publicEventData/{eventId} {
+
+        allow get: if true;
+
+      }
+
+      // Allow reading of public static drop meta
+      match /static_drop_public/{drop_id} {
+
+        allow get: if true;
+
+      }
+
+    }
+  }
+}
